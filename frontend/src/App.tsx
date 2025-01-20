@@ -1,10 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  console.log("Hi there in App.tsx")
+
+  useEffect(() => {
+    const fetchEndpoint = async() => {
+      try {
+        const response = await fetch("http://localhost:3333/hello")
+        if (!response.ok) {
+          console.log("something wrong happened in the exchange here")
+        }
+        const data = await response.json()
+        console.log(data.message) // this prints "Hello World" -> 'message' name is from json:message field specified in the HelloResponse struct
+      } catch (error) {
+        console.log("Fetch error", error)
+      }
+    }
+
+    fetchEndpoint()
+  }, [])
 
   return (
     <>
